@@ -23,6 +23,12 @@ class FirstPage extends StatelessWidget {
                     child: ListTile(
                       title: Text("${data[index]["Name"]}"),
                       subtitle: Text("${data[index]["Class"]}"),
+                      trailing: InkWell(
+                        onTap: (){
+                          Provider.deleteListData(index);
+                        },
+                          child: Icon(Icons.delete,)
+                      ),
                     ),
                   );
                 }
