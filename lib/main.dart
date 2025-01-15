@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:statemanagement_provider/counter_provider.dart';
 import 'package:statemanagement_provider/first_page.dart';
+import 'package:statemanagement_provider/list_provider.dart';
 
 void main() {
   runApp(
-      ChangeNotifierProvider(
-          create:(context)=>CounterProvider(),
-        child: MyApp(),
-      ));
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => CounterProvider(),),
+          ChangeNotifierProvider(create: (context) => ListProvider(),),
+        ],
+      child: MyApp(),
+    )
+      );
 }
 
 class MyApp extends StatelessWidget {
