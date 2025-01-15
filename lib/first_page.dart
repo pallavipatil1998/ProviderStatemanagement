@@ -5,7 +5,10 @@ import 'package:statemanagement_provider/list_provider.dart';
 import 'package:statemanagement_provider/second_page.dart';
 
 class FirstPage extends StatelessWidget {
-  const FirstPage({super.key});
+  FirstPage({super.key});
+  var nameController=TextEditingController();
+  var classController= TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +22,55 @@ class FirstPage extends StatelessWidget {
               itemCount: data.length,
                 itemBuilder: (ctx ,index){
                 return InkWell(
-                    onTap: (){},
-                    child: ListTile(
-                      title: Text("${data[index]["Name"]}"),
-                      subtitle: Text("${data[index]["Class"]}"),
-                      trailing: InkWell(
-                        onTap: (){
-                          Provider.deleteListData(index);
-                        },
-                          child: Icon(Icons.delete,)
+                  onTap: (){
+                    nameController.text=data[index]["Name"];
+                    classController.text=data[index]["Class"];
+                    showModalBottomSheet(
+                        context: context,
+                        builder:(_){
+                      return Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Update Dta",style: TextStyle(fontSize: 25),),
+                            TextField(
+                              controller: nameController,
+                              ),
+                            TextField(
+                              controller: classController,
+                            ),
+                            ElevatedButton(
+                                onPressed: (){
+                                  var updatedData={
+                                    "Name":nameController.text.toString(),
+                                    "Class":classController.text.toString(),
+                                  };
+                                  context.read<ListProvider>().updateListData(updatedData, index);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Update",style: TextStyle(fontSize: 20),)
+                            )
+
+                          ],
+                        ),
+                      );
+                        }
+                    );
+                  },
+
+
+                  child: ListTile(
+                        title: Text("${data[index]["Name"]}"),
+                        subtitle: Text("${data[index]["Class"]}"),
+                        trailing: InkWell(
+                          onTap: (){
+                            Provider.deleteListData(index);
+                          },
+                            child: Icon(Icons.delete,)
+
                       ),
                     ),
-                  );
+                );
                 }
             );
           }
