@@ -82,11 +82,39 @@ class FirstPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Map<String,dynamic> newData={
-              "Name": "Pallavi",
-              "Class": "x"
-            };
-            context.read<ListProvider>().addListData(newData);
+           showModalBottomSheet(
+               context: context,
+               builder: (_){
+                 return Container(
+                   child: Column(
+                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                     children: [
+                       Text("ADD data"),
+                       TextField(
+                         controller: nameController,
+                       ),
+                       TextField(
+                         controller: classController,
+                       ),
+                       ElevatedButton(
+                           onPressed: (){
+                             var addData={
+                               "Name": nameController.text.toString(),
+                               "Class":classController.text.toString()
+                             };
+                             context.read<ListProvider>().addListData(addData);
+                             Navigator.pop(context);
+                           },
+                           child: Text("Add",style: TextStyle(fontSize: 20),)
+                       )
+
+
+                     ],
+                   ),
+                 );
+               }
+           );
+
           },
         child: Icon(Icons.add),
       )
